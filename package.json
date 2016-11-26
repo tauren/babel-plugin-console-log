@@ -1,0 +1,33 @@
+{
+  "name": "babel-plugin-console-log",
+  "version": "0.0.1",
+  "description": "Powerful logging features for your browser console",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tauren/babel-plugin-console-log.git"
+  },
+  "scripts": {
+    "test": "mocha  test/main.js",
+    "build": "babel lib -d dist",
+    "build-test": "npm run build && npm test"
+  },
+  "keywords": [
+    "logs",
+    "debug",
+    "console",
+    "babel",
+    "plugin"
+  ],
+  "author": "Tauren Mills <tauren@tauren.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-preset-es2015": "^6.18.0",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.2"
+  }
+}
