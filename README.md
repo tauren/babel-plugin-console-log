@@ -4,8 +4,8 @@ A babel plugin for enhanced console logging behavior in browsers.
 
 This plugin does not make any changes to the actual `console` object. It
 simply provides convenience methods available in your development source
-files. The transformed output simply effects the arguments that are 
-passed to the `console` methods.
+files. The transformed output effects the aspects such as the arguments 
+that are passed to the `console` methods.
 
 Thanks to the [meaningful logs plugin](https://github.com/furstenheim/babel-plugin-meaningful-logs) 
 for inspiration!
@@ -15,7 +15,7 @@ for inspiration!
 One of the primary disadvantages of using a client-side logging framework is that 
 the original source file name and line number are not properly displayed in the 
 console. This is because the logging frameworks create a *wrapper* around the 
-actual `console.log` call, making appear that all logs originated from the same
+actual `console.log` call, making it appear that all logs originated from the same
 location within the logging wrapper. This wrapper is typically necessary when any 
 sort of dynamic processing is to take place. 
 
@@ -34,9 +34,10 @@ possible without the drawbacks.
 
 ## What can you do with this plugin?
 
-At this early stage of development, this plugin can be used to add **effects** to your 
-console output. It can be used with both `console` logging as well as any logging
-framework the user would like to use, such as `loglevel`, `winston`, `bunyan`, etc.
+At this early stage of development, this plugin can be used to add **effects** such
+as color and font size changes to your console output. It can be used with both 
+`console` logging as well as any logging framework the user would like to use, such 
+as `loglevel`, `winston`, `bunyan`, etc.
 
 As it is further developed, far more capabilities are anticipated. See below for a 
 list of future enhancements. These include prefixing logs with log level and module 
@@ -121,12 +122,14 @@ console.log('%cI have a silver background', 'background-color: silver')
 console.log('%cI am highlight', 'background-color: yellow; font-size: medium')
 ```
 
-Note that at this time, only one *effect* may be used, you cannot chain multiple effects, 
-but that is an enhancement that would be great to have. Feel free to contribute! 
+Note that at this time, only one *effect* may be used, you cannot chain multiple effects. 
+But this is an enhancement that would be great to have. Feel free to contribute! 
 
 Also, effects only work when the first argument is a string. If the first argument
 is a number, a boolean, an expression, or anything else, the effect is not applied
-to the log output. Hopefully we will soon also support templates as the first argument.
+to the log output. Hopefully we will soon also support 
+[template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+as the first argument.
 
 ## Custom Effects
 
@@ -142,11 +145,13 @@ leverage multiple default effects or any styles you wish to include.
       { 
         effects: [
           { 
+            // Custom effect name
             pattern: 'bigblue',
             // Explicitly list styles
             styles: 'font-size: x-large; color: blue'
           },
           { 
+            // Custom effect name
             pattern: 'tinyred',
             // Use console.warn instead of console.log
             method: 'warn',
@@ -206,10 +211,10 @@ const log = loglevel.getLogger('mymodule')
 log.debug(`[${log.getLevel()}:${log.getName()}] Should add prefixed information`)
 ```
 
-Note that Loglevel currently doesn't have a `getName()` method and would need to be improved. 
+Note that Loglevel currently doesn't have a `getName()` method. 
 
-The [loglevel-message-prefix plugin](https://github.com/NatLibFi/loglevel-message-prefix)
-may prove useful.
+The [loglevel-message-prefix](https://github.com/NatLibFi/loglevel-message-prefix)
+plugin may prove useful.
 
 ## Timestamp in templates
 
@@ -220,7 +225,7 @@ console.log("Include a timestamp")
 Transforms to:
 
 ```js
-console.log(`[${(new Date()).toLocaleTime()}] Include a timestamp`)
+console.log(`[${(new Date()).toLocaleTimeString()}] Include a timestamp`)
 ```
 
 ## Argument labeling
