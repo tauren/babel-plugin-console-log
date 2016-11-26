@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-console-log",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Powerful logging features for your browser console",
   "main": "dist/index.js",
   "repository": {

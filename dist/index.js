@@ -22,7 +22,7 @@ exports.default = function (_ref) {
           // var effects = _.assign({}, defaultEffects, options.opts.effects)
           var effect = getEffect(path, effects, logger);
           if (effect) {
-            path.node.callee.property.name = effect.method || 'log';
+            path.node.callee.property.name = effect.method || logger.method || 'log';
             var firstArg = path.get('arguments')[0];
             if (firstArg.isStringLiteral()) {
               path.node.arguments[0].value = '%c' + path.node.arguments[0].value;

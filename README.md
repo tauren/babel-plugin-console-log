@@ -67,8 +67,8 @@ you would put this in your `.babelrc` file:
 
 ```js
 {
-  plugins: [
-    [ 'console-log', { loggers: [{ pattern: 'winston' }] } ]
+  "plugins": [
+    [ "console-log", { "loggers": [{ "pattern": "winston" }] } ]
   ]
 }
 ```
@@ -77,14 +77,19 @@ If you wanted effects to work on both `console` and a *loglevel* `log` instance:
 
 ```js
 {
-  plugins: [
-    [ 'console-log', { loggers: [
-      { pattern: 'console' },
-      { pattern: 'log' }
+  "plugins": [
+    [ "console-log", { "loggers": [
+      { "pattern": "console" },
+      { "pattern": "log", "method": "trace" }
     ] } ]
   ]
 }
 ```
+
+The default *method* for loggers is `log`. In other words, when the plugin configuration
+for an effect does not specify a method, `console.log` will be used (or `log.log`, etc.).
+This can be overridden on a per-logger basis. For instance, **loglevel** does not have a
+`log.log` method, so specifying `trace` will instead use `log.trace`. 
 
 ## Default Effects
 

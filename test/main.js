@@ -104,6 +104,16 @@ describe('babel-plugin-console', function() {
     source: 'console.warning("foo");',
     expected: 'console.warn("%cfoo", "color: orange");'
   }, {
+    description: 'uses default method for a specific logger',
+    options: {
+      loggers: [{
+        pattern: 'log',
+        method: 'trace'
+      }]
+    },
+    source: 'log.blue("foo");',
+    expected: 'log.trace("%cfoo", "color: blue");'
+  }, {
     description: 'transforms default effect when custom effects exist',
     options: {
       effects: [{
