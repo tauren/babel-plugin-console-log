@@ -157,9 +157,9 @@ describe('babel-plugin-console', function() {
     source: 'console.blue("foo");',
     expected: 'console.log("%cfoo", "color: blue");'
   }, {
-    description: 'transforms when first argument is template',
-    source: 'console.blue(`foo`);',
-    expected: 'console.log("%c" + `foo`, "color: blue");'
+    description: 'transforms when first argument is template literal',
+    source: 'console.blue(`foo ${a}`);',
+    expected: 'console.log("%c" + `foo ${ a }`, "color: blue");'
   }, {
     description: 'transform only method when first argument is number',
     source: 'console.blue(2);',
@@ -187,23 +187,64 @@ describe('babel-plugin-console', function() {
     },
     source: 'console.notice("foo");',
     expected: 'console.log("%cfoo", "color: red;font-size: x-large;background-color: black");'
-  // }, {
-  //   description: 'transforms with a custom template',
-  //   options: {
-  //     effects: [{
-  //       pattern: 'big',
-  //       template: '[DEBUG] ${__input__}',
-  //       styles: 'font-size: x-large'
-  //     }]
-  //   },
-  //   source: 'console.big("foo");',
-  //   expected: 'console.log("%c[DEBUG] foo", "font-size: x-large");'
+  }, {
+    description: 'transforms with a custom template when first argument is string',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[DEBUG] __input__',
+        styles: 'font-size: x-large'
+      }]
+    },
+    source: 'console.big("foo");',
+    expected: 'console.log("%c[DEBUG] foo", "font-size: x-large");'
+  }, {
+    description: 'transforms with a custom template when first argument is template literal',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[DEBUG] __input__',
+        styles: 'font-size: x-large'
+      }]
+    },
+    source: 'console.big(`foo`);',
+    expected: 'console.log("%c[DEBUG] " + `foo`, "font-size: x-large");'
+  }, {
+    description: 'transforms with a custom template but without styles when first argument is string',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[DEBUG] __input__'
+      }]
+    },
+    source: 'console.big("foo");',
+    expected: 'console.log("[DEBUG] foo");'
+  }, {
+    description: 'transforms with a custom template but without styles when first argument is template literal',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[DEBUG] __input__'
+      }]
+    },
+    source: 'console.big(`foo`);',
+    expected: 'console.log("[DEBUG] " + `foo`);'
+  }, {
+    description: 'transforms with a custom template with multiple __input__',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[PREFIX] __input__ [MIDDLE] __input__ [POSTFIX]'
+      }]
+    },
+    source: 'console.big(`foo`);',
+    expected: 'console.log("[PREFIX] " + `foo` + " [MIDDLE] " + `foo` + " [POSTFIX]");'
   // }, {
   //   description: 'transforms with a custom template including timestamp',
   //   options: {
   //     effects: [{
   //       pattern: 'big',
-  //       template: '${__timestamp__}: ${__input__}',
+  //       template: '__timestamp__: __input__',
   //       styles: 'font-size: x-large'
   //     }]
   //   },
