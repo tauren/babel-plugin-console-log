@@ -114,6 +114,35 @@ describe('babel-plugin-console', function() {
     source: 'log.blue("foo");',
     expected: 'log.trace("%cfoo", "color: blue");'
   }, {
+    description: 'transforms when styles is empty string',
+    options: {
+      effects: [{
+        pattern: 'log',
+        styles: ''
+      }]
+    },
+    source: 'console.log("foo");',
+    expected: 'console.log("%cfoo", "");'
+  }, {
+    description: 'transforms only method when styles is not a string',
+    options: {
+      effects: [{
+        pattern: 'blue',
+        styles: false
+      }]
+    },
+    source: 'console.blue("foo");',
+    expected: 'console.log("foo");'
+  }, {
+    description: 'transforms only method when styles is not defined',
+    options: {
+      effects: [{
+        pattern: 'blue'
+      }]
+    },
+    source: 'console.blue("foo");',
+    expected: 'console.log("foo");'
+  }, {
     description: 'transforms default effect when custom effects exist',
     options: {
       effects: [{
@@ -128,10 +157,10 @@ describe('babel-plugin-console', function() {
     source: 'console.blue("foo");',
     expected: 'console.log("%cfoo", "color: blue");'
   }, {
-  //   description: 'transforms when first argument is template',
-  //   source: 'console.blue(`foo`);',
-  //   expected: 'console.log(`%cfoo`, "color: blue");'
-  // }, {
+    description: 'transforms when first argument is template',
+    source: 'console.blue(`foo`);',
+    expected: 'console.log("%c" + `foo`, "color: blue");'
+  }, {
     description: 'transform only method when first argument is number',
     source: 'console.blue(2);',
     expected: 'console.log(2);'

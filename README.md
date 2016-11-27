@@ -125,11 +125,10 @@ console.log('%cI am highlight', 'background-color: yellow; font-size: medium')
 Note that at this time, only one *effect* may be used, you cannot chain multiple effects. 
 But this is an enhancement that would be great to have. Feel free to contribute! 
 
-Also, effects only work when the first argument is a string. If the first argument
-is a number, a boolean, an expression, or anything else, the effect is not applied
-to the log output. Hopefully we will soon also support 
-[template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
-as the first argument.
+Also, effects only work when the first argument is a string or 
+[template literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
+If the first argument is a number, a boolean, an expression, or anything else, 
+the effect is not applied to the log output.
 
 ## Custom Effects
 

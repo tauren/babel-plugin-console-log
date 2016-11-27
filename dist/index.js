@@ -23,22 +23,17 @@ exports.default = function (_ref) {
           var effect = getEffect(path, effects, logger);
           if (effect) {
             path.node.callee.property.name = effect.method || logger.method || 'log';
-            var firstArg = path.get('arguments')[0];
-            if (firstArg.isStringLiteral()) {
-              path.node.arguments[0].value = '%c' + path.node.arguments[0].value;
-              path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles));
+            if (typeof effect.styles === 'string') {
+              var firstArg = path.get('arguments')[0];
+              if (firstArg.isStringLiteral()) {
+                path.node.arguments[0].value = '%c' + path.node.arguments[0].value;
+                path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles));
+              }
+              if (firstArg.isTemplateLiteral()) {
+                path.node.arguments[0] = t.binaryExpression('+', t.stringLiteral('%c'), firstArg.node);
+                path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles));
+              }
             }
-            // TODO: Figure out how to build a template literal
-            // if (firstArg.isTemplateLiteral()) {        
-            //   path.node.arguments[0] = t.templateLiteral([
-            //   //   t.templateElement('%c'),
-            //   //   t.templateElement(firstArg.value)
-            //   // ], [])
-            //   path.node.arguments[0].quasis.unshift(
-            //     t.templateElement(t.stringLiteral('%c'))
-            //   )
-            //   path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles))
-            // }
           }
         }
       }
