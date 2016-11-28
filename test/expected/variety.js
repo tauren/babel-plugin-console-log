@@ -29,10 +29,10 @@ winston.info("%cHighlight Winston", "font-size: large; color: green");
 
 // Non-string literals as first argument
 
-console.log(2);
-console.log(true);
-console.log(/regex/);
+console.log("%c", "font-size: small; color: blue", 2);
+console.log("%c", "font-size: small; color: blue", true);
+console.log("%c", "font-size: small; color: blue", /regex/);
 
 // Non-literals as first argument
-console.log({ x: 1 }, 2, 3, "foo");
-console.info(square(5));
+console.log("%c", "font-size: small; color: blue", { x: 1 }, 2, 3, "foo");
+console.info("%c", "font-size: large; color: green", square(5));

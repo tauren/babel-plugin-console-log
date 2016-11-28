@@ -163,19 +163,19 @@ describe('babel-plugin-console', function() {
   }, {
     description: 'transform only method when first argument is number',
     source: 'console.blue(2);',
-    expected: 'console.log(2);'
+    expected: 'console.log("%c", "color: blue", 2);'
   }, {
     description: 'transform only method when first argument is regex',
     source: 'console.blue(/foo/);',
-    expected: 'console.log(/foo/);'
+    expected: 'console.log("%c", "color: blue", /foo/);'
   }, {
     description: 'transform only method when first argument is null',
     source: 'console.blue(null);',
-    expected: 'console.log(null);'
+    expected: 'console.log("%c", "color: blue", null);'
   }, {
     description: 'transform only method when first argument is boolean',
     source: 'console.blue(true);',
-    expected: 'console.log(true);'
+    expected: 'console.log("%c", "color: blue", true);'
   }, {
     description: 'transforms effect that extends other effects',
     options: {
@@ -187,6 +187,17 @@ describe('babel-plugin-console', function() {
     },
     source: 'console.notice("foo");',
     expected: 'console.log("%cfoo", "color: red;font-size: x-large;background-color: black");'
+  }, {
+    description: 'transforms with a custom template without __input__ specified',
+    options: {
+      effects: [{
+        pattern: 'big',
+        template: '[DEBUG]',
+        styles: 'font-size: x-large'
+      }]
+    },
+    source: 'console.big("foo");',
+    expected: 'console.log("%c[DEBUG]", "font-size: x-large", "foo");'
   }, {
     description: 'transforms with a custom template when first argument is string',
     options: {

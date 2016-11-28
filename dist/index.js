@@ -24,38 +24,45 @@ exports.default = function (_ref) {
           if (effect) {
             path.node.callee.property.name = effect.method || logger.method || 'log';
             var firstArg = path.get('arguments')[0];
+            var template = void 0;
             if (firstArg.isStringLiteral() || firstArg.isTemplateLiteral()) {
-              var template = effect.template || '__input__';
-              if (typeof effect.styles === 'string') {
-                template = '%c' + template;
-                path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles));
-              }
-              var parts = template.split('__input__').map(function (item) {
-                return t.stringLiteral(item);
-              });
-              for (var i = parts.length - 1; i > 0; i--) {
-                parts.splice(i, 0, firstArg.node);
-              }
-              var expression = parts[0];
-              if (_lodash2.default.every(parts, function (p) {
-                return t.isStringLiteral(p);
-              })) {
-                // All parts are strings, so just join them into a single string
-                expression = t.stringLiteral(_lodash2.default.map(parts, function (p) {
-                  return p.value;
-                }).join(''));
-              } else {
-                // Parts are not all strings, so build an expression
-                for (var _i = 1; _i < parts.length; _i++) {
-                  if (t.isStringLiteral(parts[_i]) && parts[_i].value === '') {
-                    // This part is an empty string, so skip it
-                    break;
-                  }
-                  expression = t.binaryExpression('+', expression, parts[_i]);
-                }
-              }
-              path.node.arguments[0] = expression;
+              template = effect.template || '__input__';
+            } else {
+              template = effect.template || '';
             }
+            // template = template.replace(/__timestamp__/gi, )
+            if (template.indexOf('__input__') === -1) {
+              path.node.arguments.splice(0, 0, t.stringLiteral(template));
+            }
+            if (typeof effect.styles === 'string') {
+              template = '%c' + template;
+              path.node.arguments.splice(1, 0, t.stringLiteral(effect.styles));
+            }
+            var parts = template.split('__input__').map(function (item) {
+              return t.stringLiteral(item);
+            });
+            for (var i = parts.length - 1; i > 0; i--) {
+              parts.splice(i, 0, firstArg.node);
+            }
+            var expression = parts[0];
+            if (_lodash2.default.every(parts, function (p) {
+              return t.isStringLiteral(p);
+            })) {
+              // All parts are strings, so just join them into a single string
+              expression = t.stringLiteral(_lodash2.default.map(parts, function (p) {
+                return p.value;
+              }).join(''));
+            } else {
+              // Parts are not all strings, so build an expression
+              for (var _i = 1; _i < parts.length; _i++) {
+                if (t.isStringLiteral(parts[_i]) && parts[_i].value === '') {
+                  // This part is an empty string, so skip it
+                  break;
+                }
+                expression = t.binaryExpression('+', expression, parts[_i]);
+              }
+            }
+            path.node.arguments[0] = expression;
           }
         }
       }
